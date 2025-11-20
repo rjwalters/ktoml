@@ -1,0 +1,80 @@
+name: Publish to GitHub Packages
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to publish (e.g., 0.8.0-rjwalters)'
+        required: true
+        type: string
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: 17
+          distribution: 'temurin'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+
+      - name: Determine version
+        id: version
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "VERSION=${{ inputs.version }}" >> $GITHUB_ENV
+          else
+            # Extract version from tag (remove 'v' prefix)
+            echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_ENV
+          fi
+          echo "Publishing version: $VERSION"
+
+      - name: Publish to GitHub Packages
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_ACTOR: ${{ github.actor }}
+        run: |
+          ./gradlew publishAllPublicationsToGitHubPackagesRepository \
+            -x jsJar \
+            -x jsNodeTest \
+            -x jsTest \
+            -x jsBrowserTest \
+            -x wasmJsJar \
+            -x wasmWasiJar \
+            -x wasmJsTest \
+            -x wasmWasiTest \
+            -x compileKotlinJs \
+            -x compileKotlinWasmJs \
+            -x compileKotlinWasmWasi \
+            --no-daemon \
+            --stacktrace
+
+      - name: Publish Summary
+        run: |
+          echo "✅ Published version $VERSION to GitHub Packages" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Usage in other projects:" >> $GITHUB_STEP_SUMMARY
+          echo '```kotlin' >> $GITHUB_STEP_SUMMARY
+          echo 'repositories {' >> $GITHUB_STEP_SUMMARY
+          echo '    maven {' >> $GITHUB_STEP_SUMMARY
+          echo '        url = uri("https://maven.pkg.github.com/rjwalters/ktoml")' >> $GITHUB_STEP_SUMMARY
+          echo '        credentials {' >> $GITHUB_STEP_SUMMARY
+          echo '            username = System.getenv("GITHUB_ACTOR")' >> $GITHUB_STEP_SUMMARY
+          echo '            password = System.getenv("GITHUB_TOKEN")' >> $GITHUB_STEP_SUMMARY
+          echo '        }' >> $GITHUB_STEP_SUMMARY
+          echo '    }' >> $GITHUB_STEP_SUMMARY
+          echo '}' >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
