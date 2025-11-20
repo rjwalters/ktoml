@@ -1,11 +1,34 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
+buildscript {
+    repositories {
+        maven {
+            url = uri("https://maven.pkg.jetbrains.space/kotlin/p/kotlin/dev")
+            content {
+                includeGroupByRegex("org\\.jetbrains.*")
+            }
+        }
+        maven {
+            url = uri("https://repo1.maven.org/maven2/")
+        }
+        gradlePluginPortal()
+    }
+}
+
 plugins {
     `kotlin-dsl`
 }
 
 repositories {
-    mavenCentral()
+    maven {
+        url = uri("https://maven.pkg.jetbrains.space/kotlin/p/kotlin/dev")
+        content {
+            includeGroupByRegex("org\\.jetbrains.*")
+        }
+    }
+    maven {
+        url = uri("https://repo1.maven.org/maven2/")
+    }
     gradlePluginPortal()
 }
 
