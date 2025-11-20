@@ -13,9 +13,18 @@ plugins {
 // configureVersioning()
 
 // Use git tag version from JitPack or environment, fall back to local development version
-version = System.getenv("JITPACK_VERSION") ?: System.getenv("VERSION") ?: "0.8.6-rjwalters-SNAPSHOT"
+version = when {
+    System.getenv("JITPACK_VERSION") != null -> System.getenv("JITPACK_VERSION")
+    else -> "dev-SNAPSHOT"
+}
+
+// Log version for JitPack build verification
+println("Project version: $version")
 
 allprojects {
+    group = "com.akuleshov7"
+    version = rootProject.version  // Ensure all subprojects use the same version
+
     repositories {
         maven {
             url = uri("https://repo1.maven.org/maven2/")
