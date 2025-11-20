@@ -12,9 +12,9 @@ plugins {
 // Disable Reckon automatic versioning for fork - it doesn't handle the version jump from upstream
 // configureVersioning()
 
-// Version from project property (-Pversion=...) or default to unspecified
-// JitPack passes version via: -Pversion=$(git describe --tags)
-version = findProperty("version")?.toString() ?: "unspecified"
+// JitPack sets VERSION environment variable during builds
+// For local builds without VERSION set, use "unspecified"
+version = System.getenv("VERSION") ?: "unspecified"
 
 println("Project version: $version")
 
