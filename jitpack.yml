@@ -1,9 +1,8 @@
 jdk:
-  - openjdk21
+  - openjdk17
 
 before_install:
-  - sdk install java 21.0.1-open || true
-  - sdk use java 21.0.1-open
+  - echo "org.gradle.jvmargs=-Xmx2048m" >> gradle.properties
 
 install:
-  - ./gradlew clean build publishToMavenLocal -x test --no-daemon --stacktrace
+  - ./gradlew :ktoml-core:publishToMavenLocal :ktoml-file:publishToMavenLocal :ktoml-source:publishToMavenLocal -x jsNodeProductionLibraryPrepare -x jsNodeDevelopmentLibraryPrepare -x wasmJsNodeProductionLibraryPrepare -x wasmJsNodeDevelopmentLibraryPrepare -x compileKotlinJs -x compileKotlinWasmJs -x compileKotlinWasmWasi -x jsTest -x wasmJsTest -x wasmWasiTest --no-daemon -Dmaven.repo.local=build/m2repo
