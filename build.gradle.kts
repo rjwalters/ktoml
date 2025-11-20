@@ -12,13 +12,10 @@ plugins {
 // Disable Reckon automatic versioning for fork - it doesn't handle the version jump from upstream
 // configureVersioning()
 
-// Use git tag version from JitPack or environment, fall back to local development version
-version = when {
-    System.getenv("JITPACK_VERSION") != null -> System.getenv("JITPACK_VERSION")
-    else -> "dev-SNAPSHOT"
-}
+// Version from project property (-Pversion=...) or default to unspecified
+// JitPack passes version via: -Pversion=$(git describe --tags)
+version = findProperty("version")?.toString() ?: "unspecified"
 
-// Log version for JitPack build verification
 println("Project version: $version")
 
 allprojects {
