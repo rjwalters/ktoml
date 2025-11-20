@@ -12,8 +12,8 @@ plugins {
 // Disable Reckon automatic versioning for fork - it doesn't handle the version jump from upstream
 // configureVersioning()
 
-// Set fixed version for fork releases
-version = "0.8.2-rjwalters"
+// Use git tag version from JitPack or environment, fall back to local development version
+version = System.getenv("JITPACK_VERSION") ?: System.getenv("VERSION") ?: "0.8.6-rjwalters-SNAPSHOT"
 
 allprojects {
     repositories {

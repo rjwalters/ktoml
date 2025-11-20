@@ -4,5 +4,8 @@ jdk:
 env:
   GRADLE_OPTS: '-Xmx2048m'
 
+before_install:
+  - export VERSION=$(git describe --tags --exact-match 2>/dev/null || echo "dev-SNAPSHOT")
+
 install:
   - ./gradlew clean publishToMavenLocal -x jsJar -x jsNodeTest -x jsTest -x jsBrowserTest -x wasmJsJar -x wasmWasiJar -x wasmJsTest -x wasmWasiTest -x compileKotlinJs -x compileKotlinWasmJs -x compileKotlinWasmWasi -x generateMetadataFileForJsPublication -x generateMetadataFileForWasmJsPublication -x generateMetadataFileForWasmWasiPublication -x publishJsPublicationToMavenLocal -x publishWasmJsPublicationToMavenLocal -x publishWasmWasiPublicationToMavenLocal --no-daemon -Dmaven.repo.local=build/m2repo
