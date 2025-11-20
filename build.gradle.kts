@@ -9,7 +9,11 @@ plugins {
     id("com.saveourtool.diktat") version "2.0.0"
 }
 
-configureVersioning()
+// Disable Reckon automatic versioning for fork - it doesn't handle the version jump from upstream
+// configureVersioning()
+
+// Set fixed version for fork releases
+version = "0.8.2-rjwalters"
 
 allprojects {
     repositories {
