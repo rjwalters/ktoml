@@ -1,8 +1,8 @@
 jdk:
   - openjdk17
 
-before_install:
-  - echo "org.gradle.jvmargs=-Xmx2048m" >> gradle.properties
+env:
+  GRADLE_OPTS: '-Xmx2048m'
 
 install:
-  - ./gradlew :ktoml-core:publishToMavenLocal :ktoml-file:publishToMavenLocal :ktoml-source:publishToMavenLocal -x jsNodeProductionLibraryPrepare -x jsNodeDevelopmentLibraryPrepare -x wasmJsNodeProductionLibraryPrepare -x wasmJsNodeDevelopmentLibraryPrepare -x compileKotlinJs -x compileKotlinWasmJs -x compileKotlinWasmWasi -x jsTest -x wasmJsTest -x wasmWasiTest --no-daemon -Dmaven.repo.local=build/m2repo
+  - ./gradlew clean publishToMavenLocal -x jsJar -x wasmJsJar -x wasmWasiJar -x jsTest -x wasmJsTest -x wasmWasiTest -x kotlinNpmInstall --no-daemon -Dmaven.repo.local=build/m2repo
