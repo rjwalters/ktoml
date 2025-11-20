@@ -5,4 +5,4 @@ env:
   GRADLE_OPTS: '-Xmx2048m'
 
 install:
-  - ./gradlew clean publishToMavenLocal -x jsJar -x wasmJsJar -x wasmWasiJar -x jsTest -x wasmJsTest -x wasmWasiTest -x kotlinNpmInstall --no-daemon -Dmaven.repo.local=build/m2repo
+  - ./gradlew clean publishToMavenLocal -x jsJar -x jsNodeTest -x jsTest -x jsBrowserTest -x wasmJsJar -x wasmWasiJar -x wasmJsTest -x wasmWasiTest -x compileKotlinJs -x compileKotlinWasmJs -x compileKotlinWasmWasi -x generateMetadataFileForJsPublication -x generateMetadataFileForWasmJsPublication -x generateMetadataFileForWasmWasiPublication -x publishJsPublicationToMavenLocal -x publishWasmJsPublicationToMavenLocal -x publishWasmWasiPublicationToMavenLocal --no-daemon -Dmaven.repo.local=build/m2repo
