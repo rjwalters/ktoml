@@ -6,7 +6,7 @@ plugins {
     kotlin("multiplatform") apply false
     kotlin("plugin.serialization") version Versions.KOTLIN apply false
     id("com.akuleshov7.buildutils.publishing-configuration")
-    id("com.saveourtool.diktat") version "2.0.0"
+    id("com.saveourtool.diktat")  // Version managed in buildSrc
 }
 
 // Disable Reckon automatic versioning for fork - it doesn't handle the version jump from upstream

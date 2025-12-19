@@ -1,15 +1,12 @@
 pluginManagement {
     repositories {
         maven {
-            url = uri("https://maven.pkg.jetbrains.space/kotlin/p/kotlin/dev")
-            content {
-                includeGroupByRegex("org\\.jetbrains.*")
-            }
-        }
-        maven {
             url = uri("https://repo1.maven.org/maven2/")
         }
         gradlePluginPortal()
+        maven {
+            url = uri("https://maven.pkg.jetbrains.space/kotlin/p/kotlin/dev")
+        }
     }
 }
 
@@ -20,13 +17,10 @@ plugins {
 dependencyResolutionManagement {
     repositories {
         maven {
-            url = uri("https://maven.pkg.jetbrains.space/kotlin/p/kotlin/dev")
-            content {
-                includeGroupByRegex("org\\.jetbrains.*")
-            }
+            url = uri("https://repo1.maven.org/maven2/")
         }
         maven {
-            url = uri("https://repo1.maven.org/maven2/")
+            url = uri("https://maven.pkg.jetbrains.space/kotlin/p/kotlin/dev")
         }
     }
 }
